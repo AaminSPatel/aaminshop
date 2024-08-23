@@ -1,6 +1,7 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react"
+import React, { useContext, useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom";
+import ShoppingAppContext from "../ShoppingAppContext";
 
 export default function useTools (props) {
 
@@ -31,6 +32,7 @@ export default function useTools (props) {
    // const [userId,setUserId] = useState(null);
     const [rendr,setRendr] = useState(0)
   const navigate = useNavigate();
+  const { pathToPage} = useContext(ShoppingAppContext)
 /*   
   useEffect(() => {
     fetch("http://localhost:8081/shopping")
@@ -48,7 +50,7 @@ function handleSubmitSignup(event) {
   event.preventDefault();
 
   
-    axios.post("http://localhost:8081/signup/checkdata", { signupEmail})
+    axios.post(pathToPage +"/signup/checkdata", { signupEmail})
     .then((data) => {
       // console.log('Data = ',data,'data.data = ',data.data);
        if(data.data){
@@ -56,7 +58,7 @@ function handleSubmitSignup(event) {
            setSignupEmailCheck(false);
        }
        else{
-           axios.post("http://localhost:8081/signup", { signupEmail, signupPassword ,username})
+           axios.post(pathToPage +"/signup", { signupEmail, signupPassword ,username})
            .then((res) => {
              navigate('/')
              })
@@ -92,7 +94,7 @@ function handleSubmitSignup(event) {
    let increaseItemNum = cart + 1;
    if (10 > cart) {
      axios
-       .put(`http://localhost:8081/shopping_cart/increase`, {
+       .put(pathToPage +`/shopping_cart/increase`, {
          item_name,
          increaseItemNum,
        })
@@ -104,7 +106,7 @@ function handleSubmitSignup(event) {
  function decreaseClick(item_name, cart) {
    if (cart > 0)
      axios
-       .put(`http://localhost:8081/shopping_cart/decrease/${item_name}`)
+       .put(pathToPage +`/shopping_cart/decrease/${item_name}`)
        //.then((res)=>console.log(res))
        .catch((err) => console.log(err));
        setRendr(rendr+1)
@@ -113,7 +115,7 @@ function handleSubmitSignup(event) {
 
  
       function addtocart(pid, uid) {
-       axios.post("http://localhost:8081/shopping_cart/addItem", {pid,uid })
+       axios.post(pathToPage +"/shopping_cart/addItem", {pid,uid })
        .then(res=>{console.log(res.data.message)})
        .catch(err=>console.log(err)
        )
@@ -124,7 +126,7 @@ function handleSubmitSignup(event) {
      }
 
      function removetocart(pid, uid) {
-      axios.delete(`http://localhost:8081/shopping_cart/delete`, {
+      axios.delete(pathToPage +`/shopping_cart/delete`, {
           params: {
               pid: pid,
               uid: uid
@@ -143,7 +145,7 @@ function handleSubmitSignup(event) {
   }
   
   function toGetCartAndFavState(userId,product_id){
-    axios.get(`http://localhost:8081/shopping_fav/checkFav`, {
+    axios.get(pathToPage +`/shopping_fav/checkFav`, {
       params: {
           uId: userId,
           product_id: product_id
@@ -160,7 +162,7 @@ function handleSubmitSignup(event) {
   })
   .catch(err => console.log(err));
 
-axios.get(`http://localhost:8081/shopping_cart/checkCart`, {
+axios.get(pathToPage +`/shopping_cart/checkCart`, {
       params: {
           uId: userId,
           product_id: product_id
@@ -183,7 +185,7 @@ axios.get(`http://localhost:8081/shopping_cart/checkCart`, {
      function addtofav(pid,uid) {
        
          axios
-           .post("http://localhost:8081/shopping_fav/addItem", {
+           .post(pathToPage +"/shopping_fav/addItem", {
              pid,uid
            })
            .then(res=>{console.log(res.data.message)})
@@ -195,7 +197,7 @@ axios.get(`http://localhost:8081/shopping_cart/checkCart`, {
        setRendr(rendr+1)
      }
      function removetofav(pid, uid) {
-      axios.delete('http://localhost:8081/shopping_fav/delete', {
+      axios.delete(pathToPage +'/shopping_fav/delete', {
           headers: {
               'Content-Type': 'application/json'
           },
@@ -215,33 +217,35 @@ axios.get(`http://localhost:8081/shopping_cart/checkCart`, {
   
      async function productClicked(nam, img, pric, brand, category,product_id) {
        try {
-         const response = await axios.post('http://localhost:8081/product_page', {
+         const response = await axios.post(pathToPage +'/product_page', {
            nam,
-           img,
+           img, 
            pric,
            brand,
            category,
            product_id,
-           
          });
-         console.log(response.data.message);
-         navigate('/product');
+         //console.log(response.data.message);
+         navigate('/aaminshop/product');
+         
        } catch (error) {
          console.error(error);
        }
        setRendr(rendr+1)
      }
      function productCrossClicked(p_id) {
-       
+        
          axios.delete(
-           `http://localhost:8081/product_page/delete/${p_id}`
+           pathToPage +`/product_page/delete/${p_id}`
          )
          .then(res =>{console.log(res.data.message);
-           window.history.go(-1);
+           //window.history.go(-1);
+           //navigate('/aaminshop/shop')
+           window.history.back();
            setRendr(rendr+1)
          })
          .catch(err=>console.log(err)
-         )
+         ) 
      }
    /*   function searchItems(query) {
        let newArray;
@@ -285,9 +289,7 @@ axios.get(`http://localhost:8081/shopping_cart/checkCart`, {
     signupPassword, setSignupPassword,signupEmail, setSignupEmail,username, setUsername,
     productClicked,
     handleSubmitSignup,
-    productCrossClicked,
-    
-    
+    productCrossClicked, 
     toGetCartAndFavState,
     addtofav,
     removetocart,

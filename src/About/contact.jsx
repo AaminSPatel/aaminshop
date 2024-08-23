@@ -18,7 +18,7 @@ const ContactUs = () => {
     message: "",
   });
 
-  const { isDarkMode } = useContext(ShoppingAppContext);
+  const { isDarkMode  ,pathToPage} = useContext(ShoppingAppContext);
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
@@ -45,14 +45,14 @@ const ContactUs = () => {
 
   const inputClass = `w-full p-3 rounded bg-gray-100 text-black`;
   return (
-    <div className="contact-us w-full">
+    <div className={`contact-us w-full ${isDarkMode ? 'bg-slate-900 text-white' : 'bg-white text-black'}`}>
       {/* Hero Section  with Parallax effect*/}
       <div
         className="parallax overflow-hidden bg-center bg-cover h-[528px] flex justify-center items-end"
-        style={{ backgroundImage: `url('src/assets/prod/sh1.jpg')` }}
+        style={{ backgroundImage: `url('./assets/prod/sh1.jpg')` }}
       >
         {/*  <div className="overlay  inset-0 bg-white h-40 w-full flex justify-center  opacity-50"></div>  */}
-        <div className="content  relative z-10 flex bg-slate-700 items-center bg-opacity-50 text-white px-4 pt-2 rounded-lg flex-col ">
+        <div className="content  relative z-10 flex bg-black items-center justify-center bg-opacity-60 h-full w-full text-white px-4 pt-2 rounded-lg flex-col ">
           <h1 className="text-4xl font-bold mb-2">Get in Touch </h1>
           <p className="text-lg">We'd love to hear from you!</p>
         </div>
@@ -179,7 +179,7 @@ const ContactUs = () => {
 
       {/* Map Section */}
       <div className="map p-6 w-full">
-        <h2 className="text-3xl text-center text-white">Find Us Here</h2>
+        <h2 className="text-3xl text-center ">Find Us Here</h2>
         <div className="map-container mt-4">
           <iframe
             src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d29329.872135899423!2d75.94603788879398!3d23.234569832556424!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39636e91dd351709%3A0x6de92b7f46c12dc9!2sPanthmundla%2C%20Madhya%20Pradesh!5e0!3m2!1sen!2sin!4v1723560895746!5m2!1sen!2sin"

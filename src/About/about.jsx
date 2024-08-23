@@ -20,35 +20,35 @@ const testimonials = [
     name: "Jane Doe",
     review:
       "This company exceeded my expectations with their exceptional service.",
-    image: "src/assets/user/user8.jpg",
+    image: "./assets/user/user10.jpg",
     rating: 5,
   },
   {
     id: 2,
     name: "John Smith",
     review: "Amazing quality and customer support!",
-    image: "src/assets/user/user7.avif",
+    image: "./assets/user/user7.avif",
     rating: 4,
   },
   {
     id: 3,
     name: "Emily Johnson",
     review: "Highly recommend them for their professionalism.",
-    image: "src/assets/user/user4.jpg",
+    image: "./assets/user/user4.jpg",
     rating: 5,
   },
   {
     id: 4,
     name: "Michael Williams",
     review: "A reliable partner for our business needs.",
-    image: "src/assets/user/user9.avif",
+    image: "./assets/user/user9.avif",
     rating: 4,
   },
   {
     id: 5,
     name: "Sarah Brown",
     review: "Top-notch products and services!",
-    image: "src/assets/user/user5.jpg",
+    image: "./assets/user/user5.jpg",
     rating: 5,
   },
 ];
@@ -67,6 +67,7 @@ const AboutUs = () => {
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
+    
   }, []);
 
   const overviewCard = `card p-4 flex flex-col justify-center items-center rounded-lg shadow-md h-56  px-7 ${
@@ -87,10 +88,10 @@ const AboutUs = () => {
       {/* Hero Section */}
       <div
         className="parallax overflow-hidden bg-center bg-cover h-[528px] flex justify-center items-end"
-        style={{ backgroundImage: `url('src/assets/prod/sh8.jpg')` }}
+        style={{ backgroundImage: `url('./assets/prod/sh8.jpg')` }}
       >
         {/*  <div className="overlay  inset-0 bg-white h-40 w-full flex justify-center  opacity-50"></div>  */}
-        <div className="content  relative z-10 flex bg-slate-700 items-center bg-opacity-50 text-white px-4 pt-2 rounded-lg flex-col ">
+        <div className="content  relative z-10 flex bg-black items-center justify-center bg-opacity-50 h-full w-full text-white px-4 pt-2 rounded-lg flex-col ">
           <h1 className="text-4xl font-bold mb-2">
             Welcome to <span className="text-yellow-500">Aamin</span>Shop{" "}
           </h1>
@@ -165,7 +166,7 @@ const AboutUs = () => {
           {/* Team Member 1 */}
           <div className={teamCardCls}>
             <img
-              src="src/assets/user/user3.jpeg"
+              src="./assets/user/user3.jpeg"
               alt="John Doe"
               className="w-32 h-32 mx-auto rounded-full mb-4"
             />
@@ -178,7 +179,7 @@ const AboutUs = () => {
           {/* Team Member 2 */}
           <div className={teamCardCls}>
             <img
-              src="src/assets/user/user6.avif"
+              src="./assets/user/user6.avif"
               alt="Jane Smith"
               className="w-32 h-32 mx-auto rounded-full mb-4"
             />
@@ -191,7 +192,7 @@ const AboutUs = () => {
           {/* Team Member 3 */}
           <div className={teamCardCls}>
             <img
-              src="src/assets/user/user1.jpeg"
+              src="./assets/user/user1.jpeg"
               alt="Alex Brown"
               className="w-32 h-32 mx-auto rounded-full mb-4"
             />
@@ -204,7 +205,7 @@ const AboutUs = () => {
           {/* Team Member 3 */}
           <div className={teamCardCls}>
             <img
-              src="src/assets/user/user5.jpg"
+              src="./assets/user/user5.jpg"
               alt="Alex Brown"
               className="w-32 h-32 mx-auto rounded-full mb-4"
             />
@@ -263,32 +264,32 @@ const AboutUs = () => {
         <h2 className="text-3xl text-center mb-6">Our Office Gallery</h2>
         <div className="gallery-grid grid grid-cols-3 gap-4">
           <img
-            src="src/assets/prod/sh12.jpeg"
+            src="./assets/prod/sh12.jpeg"
             alt="Office 1"
             className="w-full h-40 sm:h-64 md:h-64 lg:h-96 hover:scale-105 transition-all object-cover rounded-lg"
           />
           <img
-            src="src/assets/prod/sh10.jpg"
+            src="./assets/prod/sh10.jpg"
             alt="Office 1"
             className="w-full h-40 sm:h-64 md:h-64 lg:h-96 hover:scale-105 transition-all object-cover rounded-lg"
           />
           <img
-            src="src/assets/image2.png"
+            src="./assets/image2.png"
             alt="Office 3"
             className="w-full h-40 sm:h-64 md:h-64 lg:h-96 hover:scale-105 transition-all object-cover rounded-lg"
           />
           <img
-            src="src/assets/prod/office.jpeg"
+            src="./assets/prod/office.jpeg"
             alt="Office 4"
             className="w-full h-40 sm:h-64 md:h-64 lg:h-96 hover:scale-105 transition-all object-cover rounded-lg"
           />
           <img
-            src="src/assets/prod/sh9.jpg"
+            src="./assets/prod/sh9.jpg"
             alt="Office 5"
             className="w-full h-40 sm:h-64 md:h-64 lg:h-96 hover:scale-105 transition-all object-cover rounded-lg"
           />
           <img
-            src="src/assets/prod/sh11.jpg"
+            src="./assets/prod/sh11.jpg"
             alt="Office 5"
             className="w-full h-40 sm:h-64 md:h-64 lg:h-96 hover:scale-105 transition-all object-cover rounded-lg"
           />
@@ -309,7 +310,7 @@ const TestimonialsCarousel = () => {
   const prevSlide = () => {
     setCurrent((prev) => (prev === 0 ? testimonials.length - 1 : prev - 1));
   };
- const {isDarkMode} = useContext(ShoppingAppContext)
+ const {isDarkMode ,pathToPage} = useContext(ShoppingAppContext)
   return (
     <div className={`testimonials-carousel ${isDarkMode ? 'bg-slate-800 text-white' : 'bg-slate-400 text-black'} rounded p-6 relative`}>
       <h2 className="text-3xl mb-4">What Our Customers Say</h2>

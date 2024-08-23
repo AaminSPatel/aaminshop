@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { createContext, useState, useEffect } from "react";
+import React, { createContext, useState, useEffect, useId } from "react";
 import useTools from "./ShoppingCard/tools";
 const ShoppingAppContext = createContext({});
 
@@ -14,7 +14,14 @@ const ShoppingAppProvider = ({ children }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(true);
-
+  const [isOrderPlaced, setIsOrderPlaced] = useState(false);
+  const [orderConfirm, setOrderConfirm] = useState(false);
+  const [openOrderDetailId,setOpenOrderDetailId] = useState();
+ // const [pathToPage,setPathToPage] = useState('aaminshop.infinityfreeapp.com');
+  const [pathToPage,setPathToPage] = useState('http://localhost:8081');
+  const [curruntIpAddress, setCurruntIpAddress] = useState('');
+  //setPathToPage('http://localhost:8081');
+  //setPathToPage('aaminshop.infinityfreeapp.com');
   // Fetch shopping data on component mount
   //const {navigate} = useTools()
   const [isDarkMode, setIsDarkMode] = useState(false);
@@ -25,27 +32,32 @@ const ShoppingAppProvider = ({ children }) => {
 
 
   useEffect(() => {
-    fetch('http://localhost:8081/userdata')
-        .then(res => res.json()) // Convert the response to JSON
-        .then(data => {
-          if(data.length > 0){
-                      setUserId(data[0].user_id);
-
-          }
-          else{
-            
-          }
-              //    console.log(userId,data[0].user_id);
-
-        }) // Log the data to the console
-        .catch(err => console.error('Error fetching data:', err)); // Handle any errors
-        
+    fetch(pathToPage +'/track-visitor')
+    .then(res=> res.json())
+    .then(data =>{
+      console.log(data.allVisitors,userId); 
+      setCurruntIpAddress(data.allVisitors.ip);
+      if(data.data){ 
+    fetch(pathToPage +`/userdata`)
+    .then(res => res.json()) // Convert the response to JSON
+    .then(data => {
+      if(data.length > 0){
+        console.log(data[0].user_id,data[0]);
+          return setUserId(data[0].user_id);
+      }
+    })
+    .catch(err => console.error('Error fetching data:', err)); // Handle any errors
+      }
+      else{
+        setUserId(null);
+      }
+    })    
 }, [userId]);
 
   function handleSubmitLogin(event) {
     event.preventDefault();
 
-    axios.post("http://localhost:8081/login", { email, password })
+    axios.post(pathToPage +"/login", { email, password })
       .then((res) => {
         if (res.data && res.data.message === 'Login Successful') {
           setIsLogin(true);
@@ -106,14 +118,17 @@ const ShoppingAppProvider = ({ children }) => {
   return (
     <ShoppingAppContext.Provider
       value={{
+        pathToPage,
+
         allShoppingItemsData,
         setAllShoppingItemsData,
         productDataToShow,setPassword,
         setProductDataToShow,setEmail,
         handleChangeSearch,handleSubmitLogin,loading, setLoading,
         searchItems,searchRender,isLogin,setIsLogin,setSearchQuery,
-        userId,productDataTo,setProductDataTo,setSearchRender,searchRender,
-        isDarkMode,toggleTheme,setUserId
+        userId,productDataTo,setProductDataTo,setSearchRender,
+        isDarkMode,toggleTheme,setUserId,setOrderConfirm,
+        orderConfirm,isOrderPlaced, setIsOrderPlaced,openOrderDetailId,setOpenOrderDetailId
       }}
     >
       {children}

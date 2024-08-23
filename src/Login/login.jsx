@@ -9,7 +9,7 @@ export default function Login(props) {
  //
  // const [username, setUsername] = useState("");
  const { navigate} = useTools();
- const { isLogin,handleSubmitLogin,setIsLogin,userId,setEmail,setPassword} = useContext(ShoppingAppContext)
+ const { isLogin,handleSubmitLogin ,pathToPage,setIsLogin,userId,setEmail,setPassword} = useContext(ShoppingAppContext)
 
  useEffect(()=>{
   setIsLogin(null);
@@ -17,7 +17,7 @@ export default function Login(props) {
 
  
  if(isLogin){
-  navigate('/home');
+  navigate('/aaminshop/');
   console.log(isLogin,userId);
  }
  else{
@@ -73,7 +73,7 @@ export default function Login(props) {
           <button
             className="bg-slate-800 text-white px-3 py-1 rounded-md shadow-md shadow-slate-700 active:bg-yellow-400"
             onClick={() => {
-              navigate('/signup');
+              navigate('/aaminshop/signup');
             }}
           >
             Sign Up 
@@ -82,10 +82,10 @@ export default function Login(props) {
             userId ? (
               <div className="h-16 mt-4 shadow-md shadow-orange-300 bg-slate-500 flex items-center text-lg text-white rounded">
                 <p>You Already logged In Go to Profile
-                  <a href="/profile" className="px-3 py-1 m-1 bg-orange-400 rounded">Profile</a>
+                  <a href="/aaminshop/profile" className="px-3 py-1 m-1 bg-orange-400 rounded">Profile</a>
                 </p>
               </div>
-            ):'aamin'
+            ):''
           }
         </div>
       </div>

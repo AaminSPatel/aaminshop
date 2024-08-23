@@ -101,9 +101,9 @@ const HelpAndSupport = () => {
             Explore these additional resources for more help and information:
           </p>
           <ul className="list-disc list-inside space-y-2">
-            <li><strong>FAQ Page:</strong> Visit our <a href="/faqs" className="text-orange-500 underline">FAQs page</a> for answers to common questions.</li>
-            <li><strong>Privacy Policy:</strong> Learn how we protect your information on our <a href="/privacy-policy" className="text-orange-500 underline">Privacy Policy page</a>.</li>
-            <li><strong>Terms of Service:</strong> Review our terms and conditions on the <a href="/terms-of-service" className="text-orange-500 underline">Terms of Service page</a>.</li>
+            <li><strong>FAQ Page:</strong> Visit our <a href="/aaminshop/faqs" className="text-orange-500 underline">FAQs page</a> for answers to common questions.</li>
+            <li><strong>Privacy Policy:</strong> Learn how we protect your information on our <a href="/aaminshop/privacy-policy" className="text-orange-500 underline">Privacy Policy page</a>.</li>
+            <li><strong>Terms of Service:</strong> Review our terms and conditions on the <a href="/aaminshop/terms-of-service" className="text-orange-500 underline">Terms of Service page</a>.</li>
             <li><strong>Community Forum:</strong> Join our community forum to discuss with other customers and find solutions to common issues.</li>
           </ul>
         </div>

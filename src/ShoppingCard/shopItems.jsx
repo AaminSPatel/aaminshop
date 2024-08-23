@@ -26,7 +26,7 @@ export default function itemShop(data) {
     setIsCartAdded,rendr
   } = useTools();
  
-  const { userId,isDarkMode} = useContext(ShoppingAppContext)
+  const { userId,isDarkMode ,pathToPage} = useContext(ShoppingAppContext)
   let product_id = data.product_id;
   // let userId = 1;
 
@@ -43,7 +43,7 @@ export default function itemShop(data) {
           <div className="group w-60 h-64 bg-white rounded-xl overflow-hidden">
             <img
               className=" w-auto mx-auto h-64 hover:scale-110 transition-all"
-              src={data.image_path}
+              src={pathToPage +`/images/${data.image_path}`}
               alt={data.image_path}
               onClick={() => {
                 productClicked(
@@ -112,9 +112,9 @@ export default function itemShop(data) {
             </p>
           </div>
           <div className="">
-            <div className="flex items-center gap-1 justify-between  font-medium px-1">
-              <p className="h-auto text-lg max-w-44 ">{data.product_name}</p>
-              <p className="text-xl font-semibold">${data.price}</p>
+            <div className="flex items-start gap-1 justify-between overflow-hidden font-medium px-1 max-h-7">
+              <p className="h-auto text-lg max-w-44 max-h-7 overflow-hidden">{data.product_name}</p>
+              <p className="text-xl font-semibold ">${data.price}</p>
             </div>
             <div className="flex items-start gap-1 justify-between  font-medium  px-1">
               <p className="text-lg font-medium">

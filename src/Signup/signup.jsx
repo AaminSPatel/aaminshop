@@ -72,7 +72,7 @@ export default function Signup (props) {
           <button
             className="bg-slate-800 px-3 py-1 rounded-md shadow-md shadow-slate-700 active:bg-yellow-400"
             onClick={() => {
-              navigate('/login');
+              navigate('/aaminshop/login');
             }}
           >
             Login

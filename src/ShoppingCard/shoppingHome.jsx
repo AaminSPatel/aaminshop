@@ -4,14 +4,14 @@ import ShopItems from './shopItems';
 import ShoppingAppContext from "../ShoppingAppContext";
 
 export default function Cars() {
-const {  searchRender,setAllShoppingItemsData,loading, setLoading,productDataTo,searchItems,setProductDataTo } = useContext(ShoppingAppContext);
+const {  isDarkMode,searchRender,setAllShoppingItemsData,loading, setLoading,productDataTo,searchItems,setProductDataTo ,pathToPage} = useContext(ShoppingAppContext);
 const [productDataToShow,setProductDataToShow] = useState();
 /* const [loading, setLoading] = useState(true);
  */
   useEffect(() => {
   const fetchData = async () => {
     try {
-      const response = await fetch("http://localhost:8081/shopping");
+      const response = await fetch(pathToPage +"/shopping");
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }
@@ -27,14 +27,15 @@ const [productDataToShow,setProductDataToShow] = useState();
   const handler = setTimeout(() => {
    fetchData();
   }, 400);
-
+   //window.scrollTo(0, 0);
   return () => {
     clearTimeout(handler);
   };
   
   
   // console.log('productDatoshow = ',productDataToShow,'productdatato = ',productDataTo,'Loading = ',loading);
-   
+ 
+
 }, []);
 /*  
 useEffect(()=>{
@@ -53,7 +54,7 @@ if (loading) {
 }
   else{
   return (
-    <div id="ShoppingItemsPage" className="w-auto h-auto flex justify-center items-center flex-col flex-wrap ">
+    <div id="ShoppingItemsPage" className={`w-auto h-auto flex justify-center items-center ${isDarkMode ? 'bg-black text-white':'bg-white text-black'} flex-col flex-wrap`}>
     
       <div className="flex justify-center items-center flex-col flex-wrap">
         <div className="flex justify-center items-center flex-row flex-wrap">

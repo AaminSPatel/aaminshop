@@ -8,18 +8,19 @@ import ShoppingAppContext from "../ShoppingAppContext";
 export default function Fav (props) {
     const [favItems,setFavItems] = useState([]);
     //const [IsDataPresent,setIsDataPresent] = useState()
-    const { userId,isDarkMode} = useContext(ShoppingAppContext)
+    const { userId,isDarkMode ,pathToPage} = useContext(ShoppingAppContext)
     const {IsDataPresent,setIsDataPresent,navigate} = useTools();
      useEffect(()=>{
-        fetch(`http://localhost:8081/shopping/fav/${userId}`)
+        fetch(pathToPage +`/shopping/fav/${userId}`)
   .then((res) => res.json())
       .then((data) => {
         setFavItems(data);
-        //console.log(data);
+        console.log(data);
         
       })
       .catch((err) => console.log(err));
- 
+      window.scrollTo(0, 0);
+
     },[]); 
 
     setTimeout(()=>{

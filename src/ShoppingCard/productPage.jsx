@@ -22,7 +22,7 @@ export default function ProductItems() {
     addtocart,removetocart,rendr,removetofav,toGetCartAndFavState,productCrossClicked,addtofav
   } = useTools();
   //const navigate = useNavigate();
-  const { userId,isDarkMode} = useContext(ShoppingAppContext)
+  const { userId,isDarkMode ,pathToPage} = useContext(ShoppingAppContext)
         
   useEffect(() => {
     toGetCartAndFavState(userId, product.p_id)
@@ -32,14 +32,15 @@ export default function ProductItems() {
 }); 
 
   useEffect(() => {
-    fetch("http://localhost:8081/product_page")
+    fetch(pathToPage +"/product_page")
       .then((res) => res.json())
       .then((dat) => {
-        setProduct(dat[0]);
+        setProduct(dat[dat.length -1]);
       })
       .catch((err) => console.log(err));
     //console.log(product.p_name);
     //setProduct(products[0])
+    window.scrollTo(0, 0);
   },[]);
 
   return (
@@ -57,7 +58,7 @@ export default function ProductItems() {
           <div className="w-3/6 min-w-96 py-10">
             <img
               className="min-w-96 h-[400px] sm:h-[400px]  lg:h-[500px] md:h-[500px] rounded-xl shadow-md shadow-sky-900 transform transition-all hover:scale-105"
-              src={product.i_path}
+              src={pathToPage +`/images/${product.i_path}`}
               alt={product.p_name}
             />
           </div>

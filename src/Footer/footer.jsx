@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import { FaFacebook, FaTwitter, FaInstagram, FaLinkedin } from 'react-icons/fa';
 import ShoppingAppContext from '../ShoppingAppContext';
+import { FaGithub } from 'react-icons/fa6';
 
 const Footer = () => {
   const {isDarkMode} = useContext(ShoppingAppContext)
@@ -14,7 +15,7 @@ const Footer = () => {
             <ul>
               {['Clothing', 'Footwear', 'Accessories', 'Sports', 'Mobile', 'Watches', 'Perfumes'].map((category, i) => (
                 <li key={i} className="mb-2 hover:text-yellow-500">
-                  <a href={`/shop?category=${category.toLowerCase()}`}>{category}</a>
+                  <a href={`/aaminshop/shop`}>{category}</a>
                 </li>
               ))}
             </ul>
@@ -26,14 +27,14 @@ const Footer = () => {
             <ul>
               
               <li className='mb-2 hover:text-yellow-500'>
-                <a href="aboutus">About Us</a>
+                <a href="/aaminshop/aboutus">About Us</a>
               </li>
               <li className='mb-2 hover:text-yellow-500'>
-                <a href="contact">Contact Us</a>
+                <a href="/aaminshop/contact">Contact Us</a>
               </li>
               {['Terms of Service', 'Privacy Policy', 'FAQs','Help & Support'].map((link, i) => (
                 <li key={i} className="mb-2 hover:text-yellow-500">
-                  <a href={`/${link.replace(/\s+/g, '-').toLowerCase()}`}>{link}</a>
+                  <a href={`/aaminshop/${link.replace(/\s+/g, '-').toLowerCase()}`}>{link}</a>
                 </li>
               ))}
               
@@ -45,22 +46,18 @@ const Footer = () => {
             <h4 className="text-lg font-semibold mb-4">Follow Us</h4>
             <ul className="flex space-x-4">
               <li>
-                <a href="https://facebook.com" className="hover:text-yellow-400">
-                  <FaFacebook size={24} />
+                <a href="https://github.com/AaminSPatel" className="hover:text-yellow-400">
+                  <FaGithub size={24} />
                 </a>
               </li>
               <li>
-                <a href="https://twitter.com" className="hover:text-yellow-400">
-                  <FaTwitter size={24} />
-                </a>
-              </li>
-              <li>
-                <a href="https://instagram.com" className="hover:text-yellow-400">
+                <a href="https://aaminspatel.github.io/portfolio1/" className="hover:text-yellow-400">
                   <FaInstagram size={24} />
                 </a>
               </li>
+              
               <li>
-                <a href="https://linkedin.com" className="hover:text-yellow-400">
+                <a href="https://www.linkedin.com/in/aamin-patel-149295255/" className="hover:text-yellow-400">
                   <FaLinkedin size={24} />
                 </a>
               </li>
@@ -79,11 +76,13 @@ const Footer = () => {
         <div className="mt-8 text-center">
           {/* Logo */}
           <div className="mb-4">
-            <img src="/src/assets/logo1.png" alt="Company Logo" className={`mx-auto h-28 rounded-full ${isDarkMode ? '' : 'bg-slate-700 hover:bg-slate-900 '}`} />
+            <a href="https://aaminspatel.github.io/portfolio1/" target='_blank'> 
+            <img src="./assets/logo1.png" alt="Company Logo" className={`mx-auto h-28 rounded-full ${isDarkMode ? '' : 'bg-slate-700 hover:bg-slate-900 '}`} />
+            </a>
           </div>
 
           {/* Copyright Info */}
-          <p>&copy; 2024 Aamin Patel. All Rights Reserved.</p>
+          <p>&copy; 2024 <a href="https://aaminspatel.github.io/portfolio1/" target='_blank'> Aamin Patel</a>. All Rights Reserved.</p>
         </div>
       </div>
     </footer>
