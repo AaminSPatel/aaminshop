@@ -48,10 +48,10 @@ const UserProfileDashboard = () => {
     revenue: 0,
     visitors:0,
 });
+
+// Fetch Favorite Items List
   useEffect(() => {
    const handler = setTimeout(()=>{
- 
-
     fetch(pathToPage +`/shopping/fav/${userId}`)
     .then((res) => res.json())
     .then((data) => {
@@ -68,9 +68,8 @@ const UserProfileDashboard = () => {
          //console.log(cartData); 
 },[profile]);
 
+//Order Details Fetch
   useEffect(() => {
- 
-
     fetch(pathToPage +`/order/detail/${userId}`)
     .then((res) => res.json())
     .then((data) => {
@@ -84,6 +83,7 @@ const UserProfileDashboard = () => {
          //console.log(cartData); 
 },[userId]);
 
+//Cart Details Fetch
 useEffect(()=>{
   const handle = setTimeout(()=>{
     fetch(pathToPage +`/shopping/cart/${userId}`)
@@ -101,12 +101,10 @@ useEffect(()=>{
      
 },[profile]); 
 
-
- // console.log(userId);
-
   const handleEditClick = () => {
     setIsEditing(true);
   };
+
   const handleSaveClick = (profileImage, mobile, fullName, address, userName, bio, dob, email, uid) => {
     setIsEditing(false);
 
@@ -149,34 +147,36 @@ useEffect(()=>{
     //setProfile({ ...profile, profilePicture: URL.createObjectURL(file) });
   };
 
+// to fetch Logged in user details
+useEffect(() => {
+  const fetchUserData = async () => {
+    try {
+      const response = await fetch(pathToPage + '/userdata');
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
 
-  useEffect(() => {
-    fetch(pathToPage +'/userdata')
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        return response.json();  // Convert the response to JSON
-      })
-      .then((data) => {
-       // console.log(data[0].profile_pic);
-       if(data.length > 0 ){
-         setProfileData(data[0])  // Log the actual data
+      const data = await response.json();
+      console.log(data[data.length - 1]);
 
-       }
-       else{
-        setProfileData(Guest[0])
-       }
-      })
-      .catch((err) => {
-        console.log('Error fetching data:', err);  // Handle any errors
-      });
-      //console.log(profileData);
-      window.scrollTo(0, 0);
-   console.log(userId);
+      if (data.length > 0) {
+        setProfileData(data[data.length - 1]);
+      } else {
+        setProfileData(Guest[0]);
+      }
+    } catch (err) {
+      console.log('Error fetching data:', err);
+      setProfileData(Guest[0]); // Fallback to guest profile on error
+    }
 
-  }, []);  // Empty dependency array means this will only run once after the initial render
-  
+    // Scroll to the top after fetching data
+    window.scrollTo(0, 0);
+    console.log('userId =', userId); // Log userId if necessary
+  };
+
+  fetchUserData(); // Call the async function
+
+}, []); // Empty dependency array means this will only run once after the initial render
 
  // console.log(profileData[0].user_name);
  function LogOut(uid) {
@@ -292,6 +292,7 @@ useEffect(() => {
         </div>
       )}
 
+   {/*   details  For Admin  */}
       {
         userId === 1 ? (
           <div className={`w-full h-auto ${isDarkMode ? 'bg-slate-600 ' :'bg-slate-300'}`}>
@@ -334,7 +335,7 @@ useEffect(() => {
         <h2 className="text-2xl mb-4">Favorite Items</h2>
         <ul className=' flex flex-row flex-wrap justify-center items-center'>
           { !userId ?  ( <p>Please Login to add items to your Favorite list.
-            <a href="/aaminshop/login" className='m-2 px-2 bg-orange-500 rounded '>Login</a>
+            <span onClick={()=>{navigate("/aaminshop/login")}} className='m-2 px-2 bg-orange-500 rounded cursor-pointer'>Login</span>
           </p>)
          :
             favItems.length ? (
@@ -347,10 +348,10 @@ useEffect(() => {
         </ul>
         <p className='text-right w-full flex justify-end'>
          {favItems.length ? (
-          <a href="/aaminshop/shopFav"  className='flex justify-center bg-white rounded w-32 flex-row items-center gap-2 text-orange-500 hover:text-orange-300'>Go To Fav <FaArrowRight/></a>
+          <span  onClick={()=>{navigate("/aaminshop/shopFav")}}  className='flex justify-center bg-white rounded w-32 flex-row items-center gap-2 text-orange-500 hover:text-orange-300 cursor-pointer'>Go To Fav <FaArrowRight/></span>
 
          ) : (
-          <a href="/aaminshop/shop"  className='flex justify-center bg-white rounded w-32 flex-row items-center gap-2 text-orange-500 hover:text-orange-300'>Go To Shop <FaArrowRight/></a>
+          <span  onClick={()=>{navigate("/aaminshop/shop")}}  className='flex justify-center bg-white rounded w-32 flex-row items-center gap-2 text-orange-500 hover:text-orange-300 cursor-pointer'>Go To Shop <FaArrowRight/></span>
 
          )}
           </p>
@@ -362,7 +363,7 @@ useEffect(() => {
         <h2 className="text-2xl mb-4">Cart Added Items</h2>
         <ul className=' flex flex-row flex-wrap justify-center items-center'>
         { !userId ?  ( <p>Please Login to add items to your Cart.
-            <a href="/aaminshop/login" className='m-2 px-2 bg-orange-500 rounded '>Login</a>
+            <span onClick={()=>{navigate("/aaminshop/login")}} className='m-2 px-2 bg-orange-500 rounded cursor-pointer'>Login</span>
           </p>)
          :
          profile.cartItems.length ? (
@@ -375,14 +376,16 @@ useEffect(() => {
         </ul>
         <p className='text-right w-full flex justify-end'>
         {profile.cartItems.length ? (
-          <a href="/aaminshop/shopcart"  className='flex justify-center bg-white rounded w-32 flex-row items-center gap-2 text-orange-500 hover:text-orange-300'>Go To Cart <FaArrowRight/></a>
+          <span  onClick={()=>{navigate("/aaminshop/shopcart")}}  className='flex justify-center bg-white rounded w-32 flex-row items-center gap-2 text-orange-500 hover:text-orange-300 cursor-pointer'>Go To Cart <FaArrowRight/></span>
 
          ) : (
-          <a href="/aaminshop/shop"  className='flex justify-center bg-white rounded w-32 flex-row items-center gap-2 text-orange-500 hover:text-orange-300'>Go To Shop <FaArrowRight/></a>
+          <span  onClick={()=>{navigate("/aaminshop/shop")}}  className='flex justify-center bg-white rounded w-32 flex-row items-center gap-2 text-orange-500 hover:text-orange-300 cursor-pointer'>Go To Shop <FaArrowRight/></span>
 
          )}
          </p>
       </div>
+
+     {/*  Order History Section */}
       <div className="mb-8">
   <h2 className="text-2xl mb-4 text-center">Order History</h2>
   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">

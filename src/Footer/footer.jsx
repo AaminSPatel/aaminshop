@@ -2,9 +2,12 @@ import React, { useContext } from 'react';
 import { FaFacebook, FaTwitter, FaInstagram, FaLinkedin } from 'react-icons/fa';
 import ShoppingAppContext from '../ShoppingAppContext';
 import { FaGithub } from 'react-icons/fa6';
+import useTools from '../ShoppingCard/tools';
+import { useNavigate } from 'react-router-dom';
 
 const Footer = () => {
   const {isDarkMode} = useContext(ShoppingAppContext)
+  const navigate = useNavigate();
   return (
     <footer className={` w-full px-6 ${isDarkMode ? 'text-white bg-slate-900' : 'text-black bg-white '}  py-10 shadow-sm shadow-black`}>
       <div className="container mx-auto">
@@ -26,15 +29,17 @@ const Footer = () => {
             <h4 className="text-lg font-semibold mb-4">Useful Links</h4>
             <ul>
               
-              <li className='mb-2 hover:text-yellow-500'>
-                <a href="/aaminshop/aboutus">About Us</a>
+              <li className='mb-2 hover:text-yellow-500 cursor-pointer'>
+                <p onClick={()=>{navigate("/aaminshop/aboutus");window.scrollTo(0, 0);}}>About Us</p>
               </li>
-              <li className='mb-2 hover:text-yellow-500'>
-                <a href="/aaminshop/contact">Contact Us</a>
+              <li className='mb-2 hover:text-yellow-500 cursor-pointer'>
+                <p onClick={()=>{navigate("/aaminshop/contact");window.scrollTo(0, 0);}}>Contact Us</p>
               </li>
               {['Terms of Service', 'Privacy Policy', 'FAQs','Help & Support'].map((link, i) => (
-                <li key={i} className="mb-2 hover:text-yellow-500">
-                  <a href={`/aaminshop/${link.replace(/\s+/g, '-').toLowerCase()}`}>{link}</a>
+                <li key={i} className="mb-2 hover:text-yellow-500 cursor-pointer">
+                  <a onClick={()=>{navigate(`/aaminshop/${link.replace(/\s+/g, '-').toLowerCase()}`);
+                window.scrollTo(0, 0);
+                }}>{link}</a>
                 </li>
               ))}
               

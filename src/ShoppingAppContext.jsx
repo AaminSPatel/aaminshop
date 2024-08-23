@@ -9,73 +9,95 @@ const ShoppingAppProvider = ({ children }) => {
   const [productDataTo, setProductDataTo] = useState([]);
   const [userId, setUserId] = useState(null);
   const [isLogin, setIsLogin] = useState(false);
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useState("");
   const [searchRender, setSearchRender] = useState(0);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(true);
   const [isOrderPlaced, setIsOrderPlaced] = useState(false);
   const [orderConfirm, setOrderConfirm] = useState(false);
-  const [openOrderDetailId,setOpenOrderDetailId] = useState();
- // const [pathToPage,setPathToPage] = useState('aaminshop.infinityfreeapp.com');
-  const [pathToPage,setPathToPage] = useState('http://localhost:8081');
-  const [curruntIpAddress, setCurruntIpAddress] = useState('');
+  const [openOrderDetailId, setOpenOrderDetailId] = useState();
+  // const [pathToPage,setPathToPage] = useState('aaminshop.infinityfreeapp.com');
+  const [pathToPage, setPathToPage] = useState("http://localhost:8081");
+  const [curruntIpAddress, setCurruntIpAddress] = useState("");
   //setPathToPage('http://localhost:8081');
   //setPathToPage('aaminshop.infinityfreeapp.com');
   // Fetch shopping data on component mount
   //const {navigate} = useTools()
   const [isDarkMode, setIsDarkMode] = useState(false);
- 
+
   const toggleTheme = () => {
-          setIsDarkMode(!isDarkMode);
+    setIsDarkMode(!isDarkMode);
   };
 
-
   useEffect(() => {
-    fetch(pathToPage +'/track-visitor')
-    .then(res=> res.json())
-    .then(data =>{
-      console.log(data.allVisitors,userId); 
-      setCurruntIpAddress(data.allVisitors.ip);
-      if(data.data){ 
-    fetch(pathToPage +`/userdata`)
-    .then(res => res.json()) // Convert the response to JSON
-    .then(data => {
-      if(data.length > 0){
-        console.log(data[0].user_id,data[0]);
-          return setUserId(data[0].user_id);
+    const fetchUser = async () => {
+      try {
+        const response = await fetch(pathToPage + `/userdata`);
+        const data = await response.json();
+  
+        if (data.length > 0) {
+          const user_id = data[data.length - 1].user_id;
+          console.log(user_id, data[data.length - 1]);
+          return user_id; // Return the user ID
+        }
+      } catch (err) {
+        console.error("Error fetching data:", err);
+        return null; // Return null in case of error
       }
-    })
-    .catch(err => console.error('Error fetching data:', err)); // Handle any errors
+    };
+  
+    const trackVisitor = async () => {
+      try {
+        const response = await fetch(pathToPage + "/track-visitor");
+        const data = await response.json();
+  
+        console.log(data.allVisitors, data.data);
+        setCurruntIpAddress(data.allVisitors.ip);
+  
+        if (data.data) {
+          const userId = await fetchUser(); // Wait for fetchUser to complete
+          console.log('userid ye he', userId);
+          setUserId(userId); // Set the user ID
+        } else {
+          console.log("User id Null kar di gai he");
+          setUserId(null);
+        }
+      } catch (err) {
+        console.error("Error tracking visitor:", err);
+        setUserId(null); // Set user ID to null in case of error
       }
-      else{
-        setUserId(null);
-      }
-    })    
-}, [userId]);
-
+    };
+  
+    trackVisitor(); // Call trackVisitor to start the process
+  }, []);
+  
   function handleSubmitLogin(event) {
     event.preventDefault();
 
-    axios.post(pathToPage +"/login", { email, password })
+    axios
+      .post(pathToPage + "/login", { email, password })
       .then((res) => {
-        if (res.data && res.data.message === 'Login Successful') {
+        if (res.data && res.data.message === "Login Successful") {
           setIsLogin(true);
           setUserId(res.data.user.Id);
-          console.log('Login successful, userId = ', res.data.user);
+          console.log("Login successful, userId = ", res.data.user);
         } else {
           setIsLogin(false);
           setUserId(null);
-          console.log('Login failed: ', res.data.message || 'No data returned.');
+          console.log(
+            "Login failed: ",
+            res.data.message || "No data returned."
+          );
           // Display an appropriate error message to the user
         }
       })
       .catch((err) => {
-        console.log('Error occurred during login:', err);
+        console.log("Error occurred during login:", err);
         // Handle error, such as showing an error message to the user
       });
-}
- // Debounced search function
+  }
+  // Debounced search function
   useEffect(() => {
     const handler = setTimeout(() => {
       searchItems(searchQuery);
@@ -89,13 +111,13 @@ const ShoppingAppProvider = ({ children }) => {
   function searchItems(query) {
     if (!query) {
       setProductDataTo(allShoppingItemsData);
-      setSearchRender(s=> s +1)
-    // setProductDataToShow(allShoppingItemsData)
-  
+      setSearchRender((s) => s + 1);
+      // setProductDataToShow(allShoppingItemsData)
+
       // Reset to all items if query is empty
       return;
     }
-    
+
     const newArray = allShoppingItemsData.filter((arr) => {
       return (
         arr.brand.toLowerCase().includes(query.toLowerCase()) ||
@@ -105,10 +127,9 @@ const ShoppingAppProvider = ({ children }) => {
       );
     });
     setProductDataTo(newArray);
-   console.log(query,productDataTo);
-        searchItems,
-        setSearchRender(s => s + 1)
-        //setProductDataToShow(newArray)
+    console.log(query, productDataTo);
+    searchItems, setSearchRender((s) => s + 1);
+    //setProductDataToShow(newArray)
   }
 
   function handleChangeSearch(e) {
@@ -122,13 +143,32 @@ const ShoppingAppProvider = ({ children }) => {
 
         allShoppingItemsData,
         setAllShoppingItemsData,
-        productDataToShow,setPassword,
-        setProductDataToShow,setEmail,
-        handleChangeSearch,handleSubmitLogin,loading, setLoading,
-        searchItems,searchRender,isLogin,setIsLogin,setSearchQuery,
-        userId,productDataTo,setProductDataTo,setSearchRender,
-        isDarkMode,toggleTheme,setUserId,setOrderConfirm,
-        orderConfirm,isOrderPlaced, setIsOrderPlaced,openOrderDetailId,setOpenOrderDetailId
+        productDataToShow,
+        setPassword,
+        setProductDataToShow,
+        setEmail,
+        handleChangeSearch,
+        handleSubmitLogin,
+        loading,
+        setLoading,
+        searchItems,
+        searchRender,
+        isLogin,
+        setIsLogin,
+        setSearchQuery,
+        userId,
+        productDataTo,
+        setProductDataTo,
+        setSearchRender,
+        isDarkMode,
+        toggleTheme,
+        setUserId,
+        setOrderConfirm,
+        orderConfirm,
+        isOrderPlaced,
+        setIsOrderPlaced,
+        openOrderDetailId,
+        setOpenOrderDetailId,
       }}
     >
       {children}
